@@ -7,6 +7,7 @@ from sympy import *
 from parser   import parse_equation, build_ics
 from classifier import classify
 from solver    import solve_ode
+from formatter import format_solution
 
 # ── إعداد الصفحة ────────────────────────────────────────
 st.set_page_config(
@@ -14,6 +15,22 @@ st.set_page_config(
     page_icon="📐",
     layout="wide",
 )
+
+# ── إخفاء عناصر Streamlit ──────────────────────────────
+
+# ── إخفاء عناصر Streamlit الافتراضية ───────────────────
+st.markdown("""
+<style>
+#MainMenu {visibility: hidden !important;}
+footer {visibility: hidden !important;}
+header {visibility: hidden !important;}
+[data-testid="stToolbar"] {display: none !important;}
+.viewerBadge_container__1QSob {display: none !important;}
+.viewerBadge_link__1S137 {display: none !important;}
+[class*="viewerBadge"] {display: none !important;}
+div[data-testid="stDecoration"] {display: none !important;}
+</style>
+""", unsafe_allow_html=True)
 
 # ── CSS ─────────────────────────────────────────────────
 st.markdown("""

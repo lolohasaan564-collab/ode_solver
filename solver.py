@@ -2,6 +2,7 @@
 #  solver.py  —  الحل خطوة بخطوة
 # ═══════════════════════════════════════════════════════
 from sympy import *
+from formatter import format_solution
 
 x  = symbols('x')
 y  = Function('y')
@@ -52,12 +53,20 @@ def solve_ode(ode_eq, ics: dict, hint: str = "best"):
             sol = dsolve(ode_eq, y(x))
 
         # تنظيف الحل
-        sol_rhs = sol.rhs if hasattr(sol, 'rhs') else sol
+        # استخرج الحل الخام
+        if isinstance(sol, list):
+            sol_rhs_raw = sol
+        elif hasattr(sol, 'rhs'):
+            sol_rhs_raw = sol.rhs
+        else:
+            sol_rhs_raw = sol
+        sol_rhs = sol_rhs_raw
 
+        pretty = format_solution(sol_rhs_raw)
         steps.append({
             "num":    len(steps)+1,
             "title":  "✅ الحل النهائي",
-            "work":   f"y(x) = {sol_rhs}",
+            "work":   f"y(x) = {pretty}",
             "detail": ""
         })
 
@@ -70,7 +79,7 @@ def solve_ode(ode_eq, ics: dict, hint: str = "best"):
                 "detail": f"الشروط: {ics}"
             })
 
-        return steps, str(sol_rhs), None
+        return steps, format_solution(sol_rhs_raw), None
 
     except Exception as e:
         return steps, "", str(e)
